@@ -13,11 +13,11 @@ variable "vpc_cidr" {
 }
 
 variable "public_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "private_cidr" {
-  type = string
+  type = list(string)
 }
 
 variable "resource_count" {

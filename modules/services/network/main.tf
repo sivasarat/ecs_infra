@@ -20,7 +20,7 @@ resource "aws_internet_gateway" "demo_igw" {
 resource "aws_subnet" "public_subnet" {
   count                   = var.resource_count
   vpc_id                  = aws_vpc.demo_vpc.id
-  cidr_block              = var.public_cidr
+  cidr_block              = var.public_cidr[count.index]
   map_public_ip_on_launch = true
 
   tags = merge({
@@ -71,7 +71,7 @@ resource "aws_eip" "demo_nat_ip" {
 resource "aws_subnet" "private_subnet" {
   count      = var.resource_count
   vpc_id     = aws_vpc.demo_vpc.id
-  cidr_block = var.private_cidr
+  cidr_block = var.private_cidr[count.index]
 
   tags = merge({
     Name = "demo-private-subnet-${count.index}"

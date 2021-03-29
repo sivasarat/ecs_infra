@@ -12,7 +12,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   family = "service"
   container_definitions = jsonencode([
     {
-      name   = "Alpine Nginx"
+      name   = "nginx"
       image  = "ngnix"
       cpu    = 1
       memory = 512
@@ -25,7 +25,7 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       network_mode = "bridge"
       portMappings = [
         {
-          containerPort = 80
+          containerPort = 8080
           hostPort      = 80
         }
       ]
