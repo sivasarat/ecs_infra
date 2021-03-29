@@ -10,10 +10,10 @@ private_cidr = "10.0.2.0/24"
 # --------------------------------------------
 # Cluster values
 # --------------------------------------------
-cluster_name    = "COMPNAY-X-ECS-Cluster"
-CW_log_group    = "COMPANY-X-Logs"
-desired_count = 1
-deployment_maximum_percent = 100
+cluster_name                       = "COMPNAY-X-ECS-Cluster"
+CW_log_group                       = "COMPANY-X-Logs"
+desired_count                      = 1
+deployment_maximum_percent         = 100
 deployment_minimum_healthy_percent = 0
 
 # --------------------------------------------

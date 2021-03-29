@@ -12,10 +12,10 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
   family = "service"
   container_definitions = jsonencode([
     {
-      name      = "Alpine Nginx"
-      image     = "ngnix"
-      cpu       = 1
-      memory    = 512
+      name   = "Alpine Nginx"
+      image  = "ngnix"
+      cpu    = 1
+      memory = 512
       environment = [
         {
           "name"  = "VARNAME"
@@ -53,7 +53,7 @@ resource "aws_ecs_service" "nginx" {
 
 # CLOUD WATCH LOG GROUP
 resource "aws_cloudwatch_log_group" "CW_log_group" {
-  name = var.CW_log_group
+  name              = var.CW_log_group
   retention_in_days = 30
 
   tags = merge({

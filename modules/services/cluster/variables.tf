@@ -33,7 +33,7 @@ variable "deployment_minimum_healthy_percent" {
 }
 
 variable "alb_target_group" {
-  type= string
+  type = string
 }
 
 #--------------------------------

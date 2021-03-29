@@ -1,6 +1,6 @@
 
 resource "aws_alb_target_group" "tg" {
-  name                 = "${var.alb_name}_target_group"
+  name                 = "${var.alb_name}-target-group"
   port                 = 80
   protocol             = "HTTP"
   vpc_id               = var.vpc_id
@@ -12,14 +12,14 @@ resource "aws_alb_target_group" "tg" {
   }
 
   tags = merge({
-    Name = "${var.alb_name}_target_group"
+    Name = "${var.alb_name}-target-group"
   }, local.common_tags)
 }
 
 resource "aws_alb" "alb" {
   name            = var.alb_name
-  subnets         = var.public_subnet_ids
-  security_groups = ["${aws_security_group.alb.id}"]
+  subnets         = [var.public_subnet_ids]
+  security_groups = [aws_security_group.alb.id]
 
   tags = merge({
     Name = var.alb_name
@@ -32,7 +32,7 @@ resource "aws_alb_listener" "http" {
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.default.id
+    target_group_arn = aws_alb_target_group.tg.id
     type             = "forward"
   }
 }
