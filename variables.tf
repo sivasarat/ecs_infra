@@ -20,6 +20,10 @@ variable "private_cidr" {
   type = string
 }
 
+variable "count" {
+  type = string
+}
+
 #--------------------------------
 # cluster variables
 #--------------------------------

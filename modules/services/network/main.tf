@@ -18,12 +18,13 @@ resource "aws_internet_gateway" "demo_igw" {
 
 # PUBLIC SUBNET
 resource "aws_subnet" "public_subnet" {
+  count = var.count
   vpc_id                  = aws_vpc.demo_vpc.id
   cidr_block              = var.public_cidr
   map_public_ip_on_launch = true
 
   tags = merge({
-    Name = "demo_public_subnet"
+    Name = "demo-public-subnet-${count.index}"
   }, local.common_tags)
 }
 
@@ -53,7 +54,8 @@ resource "aws_nat_gateway" "nat_gw" {
 
 # ROUTE TABLE ASSOCIATION - PUBLIC
 resource "aws_route_table_association" "public_route_assoc" {
-  subnet_id      = aws_subnet.public_subnet.id
+  count = var.count
+  subnet_id      = aws_subnet.public_subnet[count.index].id
   route_table_id = aws_route_table.public_route_table.id
 }
 
@@ -67,11 +69,12 @@ resource "aws_eip" "demo_nat_ip" {
 
 # PRIVATE SUBNET
 resource "aws_subnet" "private_subnet" {
+  count = var.count
   vpc_id     = aws_vpc.demo_vpc.id
   cidr_block = var.private_cidr
 
   tags = merge({
-    Name = "demo_private_subnet"
+    Name = "demo-private-subnet-${count.index}"
   }, local.common_tags)
 }
 
@@ -91,6 +94,7 @@ resource "aws_route_table" "private_route_table" {
 
 # ROUTE TABLE ASSOCIATION - PRIVATE
 resource "aws_route_table_association" "private_route_assoc" {
-  subnet_id      = aws_subnet.private_subnet.id
+  count = var.count
+  subnet_id      = aws_subnet.private_subnet[count.index].id
   route_table_id = aws_route_table.private_route_table.id
 }

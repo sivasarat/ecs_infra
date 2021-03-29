@@ -14,7 +14,7 @@ variable "alb_name" {
 }
 
 variable "public_subnet_ids" {
-  type        = string
+  type        = list(string)
   description = "List of public subnet ids to place the loadbalancer in"
 }
 
