@@ -32,6 +32,10 @@ variable "deployment_minimum_healthy_percent" {
   type = number
 }
 
+variable "alb_target_group" {
+  type= string
+}
+
 #--------------------------------
 # Tag variables
 #--------------------------------

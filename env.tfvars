@@ -22,3 +22,8 @@ deployment_minimum_healthy_percent = 0
 service_tag = "aws"
 owner_tag   = "utrack"
 task_tag    = "assignment"
+
+# --------------------------------------------
+# alb values
+# --------------------------------------------
+alb_name = "COMPNAY-X-ALB"

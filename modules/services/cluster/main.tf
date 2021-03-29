@@ -16,7 +16,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       image     = "ngnix"
       cpu       = 1
       memory    = 512
-      essential = true
       environment = [
         {
           "name"  = "VARNAME"
@@ -32,16 +31,6 @@ resource "aws_ecs_task_definition" "ecs_task_definition" {
       ]
     }
   ])
-
-  volume {
-    name      = "service-storage"
-    host_path = "/ecs/service-storage"
-  }
-
-  placement_constraints {
-    type       = "memberOf"
-    expression = "attribute:ecs.availability-zone in [us-west-2a, us-west-2b]"
-  }
 }
 
 # ECS SERVICE
@@ -55,26 +44,19 @@ resource "aws_ecs_service" "nginx" {
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
 
   load_balancer {
-    target_group_arn = aws_lb_target_group.foo.arn
+    target_group_arn = var.alb_target_group
     container_name   = "nginx"
     container_port   = 8080
   }
 
 }
 
-# IAM ROLE
-
-
-# IAM POLICY
-
-
 # CLOUD WATCH LOG GROUP
 resource "aws_cloudwatch_log_group" "CW_log_group" {
   name = var.CW_log_group
+  retention_in_days = 30
+
   tags = merge({
     Name = var.CW_log_group
   }, local.common_tags)
 }
-
-
-

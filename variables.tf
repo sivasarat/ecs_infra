@@ -57,3 +57,27 @@ variable "owner_tag" {
 variable "task_tag" {
   type = string
 }
+
+#--------------------------------
+# alb variables
+#--------------------------------
+
+variable "alb_name" {
+  default     = "default"
+  description = "The name of the loadbalancer"
+}
+
+variable "deregistration_delay" {
+  default     = "300"
+  description = "The default deregistration delay"
+}
+
+variable "health_check_path" {
+  default     = "/"
+  description = "The default health check path"
+}
+
+variable "allow_cidr_block" {
+  default     = ["0.0.0.0/0"]
+  description = "Specify cidr block that is allowed to access the LoadBalancer"
+}
