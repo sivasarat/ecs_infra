@@ -11,7 +11,7 @@ module "network" {
   vpc_cidr     = var.vpc_cidr
   public_cidr  = var.public_cidr
   private_cidr = var.private_cidr
-  count = var.count
+  resource_count = var.resource_count
 }
 
 module "iam" {

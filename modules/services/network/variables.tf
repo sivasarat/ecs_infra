@@ -20,7 +20,7 @@ variable "private_cidr" {
   type = string
 }
 
-variable "count" {
+variable "resource_count" {
   type = string
 }
 
