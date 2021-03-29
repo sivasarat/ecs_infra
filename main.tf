@@ -3,14 +3,14 @@ provider "aws" {
 }
 
 module "network" {
-  source       = "./modules/services/network"
-  service_tag  = var.service_tag
-  owner_tag    = var.owner_tag
-  task_tag     = var.task_tag
-  region       = var.region
-  vpc_cidr     = var.vpc_cidr
-  public_cidr  = var.public_cidr
-  private_cidr = var.private_cidr
+  source         = "./modules/services/network"
+  service_tag    = var.service_tag
+  owner_tag      = var.owner_tag
+  task_tag       = var.task_tag
+  region         = var.region
+  vpc_cidr       = var.vpc_cidr
+  public_cidr    = var.public_cidr
+  private_cidr   = var.private_cidr
   resource_count = var.resource_count
 }
 
