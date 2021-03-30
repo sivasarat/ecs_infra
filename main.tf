@@ -26,14 +26,17 @@ module "iam" {
 }
 
 module "alb" {
-  source            = "./modules/services/alb"
-  service_tag       = var.service_tag
-  owner_tag         = var.owner_tag
-  task_tag          = var.task_tag
-  region            = var.region
-  vpc_id            = module.network.vpc_id
-  public_subnet_ids = module.network.subnet_id
-  alb_name          = var.alb_name
+  source             = "./modules/services/alb"
+  service_tag        = var.service_tag
+  owner_tag          = var.owner_tag
+  task_tag           = var.task_tag
+  region             = var.region
+  vpc_id             = module.network.vpc_id
+  public_subnet_ids  = module.network.subnet_id
+  private_subnet_ids = module.network.private_subnet_id
+  alb_name           = var.alb_name
+  resource_count     = var.resource_count
+
   depends_on = [
     module.network
   ]
@@ -48,6 +51,8 @@ module "cluster" {
   cluster_name                       = var.cluster_name
   CW_log_group                       = var.CW_log_group
   desired_count                      = var.desired_count
+  private_subnet_ids                 = module.network.private_subnet_id
+  alb_security_group_id              = module.alb.alb_security_group_id
   deployment_maximum_percent         = var.deployment_maximum_percent
   deployment_minimum_healthy_percent = var.deployment_minimum_healthy_percent
   ecs_role_arn                       = module.iam.ecs_role_arn

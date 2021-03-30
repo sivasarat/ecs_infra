@@ -16,12 +16,18 @@ resource "aws_internet_gateway" "demo_igw" {
   }, local.common_tags)
 }
 
+
+data "aws_availability_zones" "available" {
+  state = "available"
+}
+
 # PUBLIC SUBNET
 resource "aws_subnet" "public_subnet" {
   count                   = var.resource_count
   vpc_id                  = aws_vpc.demo_vpc.id
   cidr_block              = var.public_cidr[count.index]
   map_public_ip_on_launch = true
+  availability_zone       = data.aws_availability_zones.available.names[count.index]
 
   tags = merge({
     Name = "demo-public-subnet-${count.index}"
@@ -69,9 +75,10 @@ resource "aws_eip" "demo_nat_ip" {
 
 # PRIVATE SUBNET
 resource "aws_subnet" "private_subnet" {
-  count      = var.resource_count
-  vpc_id     = aws_vpc.demo_vpc.id
-  cidr_block = var.private_cidr[count.index]
+  count             = var.resource_count
+  vpc_id            = aws_vpc.demo_vpc.id
+  cidr_block        = var.private_cidr[count.index]
+  availability_zone = data.aws_availability_zones.available.names[count.index]
 
   tags = merge({
     Name = "demo-private-subnet-${count.index}"
