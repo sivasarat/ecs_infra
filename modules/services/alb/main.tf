@@ -17,11 +17,11 @@ resource "aws_alb_target_group" "tg" {
 }
 
 resource "aws_lb" "alb" {
-  name            = var.alb_name
-  subnets         = var.public_subnet_ids
+  name               = var.alb_name
+  subnets            = var.public_subnet_ids
   load_balancer_type = "application"
   internal           = false
-  security_groups = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.alb.id]
 
   tags = merge({
     Name = var.alb_name
