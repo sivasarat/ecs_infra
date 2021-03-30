@@ -16,13 +16,30 @@ resource "aws_alb_target_group" "tg" {
   }, local.common_tags)
 }
 
-resource "aws_alb" "alb" {
+resource "aws_lb" "alb" {
   name            = var.alb_name
   subnets         = var.public_subnet_ids
+  load_balancer_type = "application"
+  internal           = false
   security_groups = [aws_security_group.alb.id]
 
   tags = merge({
     Name = var.alb_name
+  }, local.common_tags)
+}
+
+resource "aws_lb_target_group_attachment" "tg_attachment" {
+  target_group_arn = aws_lb_target_group.tg.arn
+  target_id        = aws_instance.test.id
+  port             = 80
+}
+
+resource "aws_instance" "node" {
+  ami           = data.aws_ami.ubuntu.id
+  instance_type = "t3.micro"
+
+  tags = merge({
+    Name = "nginx-node"
   }, local.common_tags)
 }
 
