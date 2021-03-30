@@ -30,16 +30,25 @@ resource "aws_lb" "alb" {
 
 resource "aws_lb_target_group_attachment" "tg_attachment" {
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = aws_instance.node.id
+  target_id        = aws_instance.node[0].id
+  port             = 80
+}
+
+resource "aws_lb_target_group_attachment" "tg_attachment_1" {
+  target_group_arn = aws_lb_target_group.tg.arn
+  target_id        = aws_instance.node[1].id
   port             = 80
 }
 
 resource "aws_instance" "node" {
-  ami           = data.aws_ami.ubuntu.id
-  instance_type = "t2.micro"
+  count                  = var.resource_count
+  ami                    = data.aws_ami.ubuntu.id
+  instance_type          = "t2.micro"
+  subnet_id              = var.private_subnet_ids[count.index]
+  vpc_security_group_ids = [aws_security_group.alb.id]
 
   tags = merge({
-    Name = "nginx-node"
+    Name = "nginx-node-${count.index}"
   }, local.common_tags)
 }
 
