@@ -3,5 +3,5 @@ output "alb_security_group_id" {
 }
 
 output "alb_target_group" {
-  value = aws_alb_target_group.tg.arn
+  value = aws_lb_target_group.tg.arn
 }

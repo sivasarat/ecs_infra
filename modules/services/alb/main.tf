@@ -1,5 +1,5 @@
 
-resource "aws_alb_target_group" "tg" {
+resource "aws_lb_target_group" "tg" {
   name                 = "${var.alb_name}-target-group"
   port                 = 80
   protocol             = "HTTP"
@@ -30,13 +30,13 @@ resource "aws_lb" "alb" {
 
 resource "aws_lb_target_group_attachment" "tg_attachment" {
   target_group_arn = aws_lb_target_group.tg.arn
-  target_id        = aws_instance.test.id
+  target_id        = aws_instance.node.id
   port             = 80
 }
 
 resource "aws_instance" "node" {
   ami           = data.aws_ami.ubuntu.id
-  instance_type = "t3.micro"
+  instance_type = "t2.micro"
 
   tags = merge({
     Name = "nginx-node"
@@ -44,12 +44,12 @@ resource "aws_instance" "node" {
 }
 
 resource "aws_alb_listener" "http" {
-  load_balancer_arn = aws_alb.alb.id
+  load_balancer_arn = aws_lb.alb.id
   port              = "80"
   protocol          = "HTTP"
 
   default_action {
-    target_group_arn = aws_alb_target_group.tg.id
+    target_group_arn = aws_lb_target_group.tg.id
     type             = "forward"
   }
 }
